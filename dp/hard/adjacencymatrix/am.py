@@ -203,13 +203,6 @@ while(True):
 	if orow>=noLines:
 		break
 
-print("Partial Edges found:")
-if len(partialEdges) > 0:
-	for i in range(len(partialEdges)):
-		print( partialEdges[i][2] + "@" + str(partialEdges[i][0]) + "," + 
-		    str(partialEdges[i][1]) + " <-> " + partialEdges[i][5] + "@" + 
-			str(partialEdges[i][3]) + "," + str(partialEdges[i][4]) )
-
 fullEdges = []
 	
 while(True):
@@ -242,13 +235,6 @@ while(True):
 		allValid = allValid and (partialEdges[t]==None)
 	if allValid:
 		break
-
-print("Edges found:")
-if len(fullEdges) > 0:
-	for i in range(len(fullEdges)):
-		print( fullEdges[i][2] + "@" + str(fullEdges[i][0]) + "," + 
-		    str(fullEdges[i][1]) + " <-> " + fullEdges[i][5] + "@" + 
-			str(fullEdges[i][3]) + "," + str(fullEdges[i][4]) )
 			
 vertices = []
 for i in range(len(fullEdges)):
@@ -257,8 +243,7 @@ for i in range(len(fullEdges)):
 	if not fullEdges[i][5] in vertices:
 		vertices.append(fullEdges[i][5])
 vertices = sorted(vertices)
-print("Vertices Involved:")
-print(vertices)
+
 
 adjmatrix = []
 for i in range(len(vertices)):
@@ -277,7 +262,6 @@ for i in range(len(fullEdges)):
 					adjmatrix[j][k] += 1
 					adjmatrix[k][j] += 1
 	
-print("Adjacency Matrix:")
 for i in range(len(adjmatrix)):
 	adjrow = ""
 	for j in range(len(adjmatrix[i])):
