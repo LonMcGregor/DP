@@ -7,9 +7,11 @@
     <string name="action_visitdp">Visit /r/DailyProgrammer</string>
     <string name="action_settings">Settings</string>
     <string name="button_execute">Execute</string>
+    <string name="button_execute_long">Execute Long</string>
+    <string name="button_execute_short">Execute Short</string>
     <string name="exercise_h229_button">Hard 229 - Divisible by 7</string>
     <string name="exercise_h229_title">Hard 229 - Divisible by 7</string>
-    <string name="exercise_h229_defaultPowerCount">11</string>
+    <string name="exercise_h229_defaultPowerCount">3</string>
     <string name="exercise_h229_algorithmDescription">Find all of the numbers between 0 and 10 to the specified power, that are divisble by 7, as well as their mirror. Also find the total.</string>
     <string name="exercise_h229_inputPrompt">Perform algorithm for up to how many powers?</string>
 

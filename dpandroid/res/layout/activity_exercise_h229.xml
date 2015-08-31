@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/exercise_h229_algorithmDescription" />
     
     <TextView
@@ -23,7 +23,7 @@
         android:layout_alignLeft="@+id/textView_description"
         android:layout_alignStart="@+id/textView_description"
         android:layout_below="@+id/textView_description"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/exercise_h229_inputPrompt" />
     
     <EditText
@@ -33,30 +33,46 @@
         android:layout_alignLeft="@+id/textView_inputPrompt"
         android:layout_alignStart="@+id/textView_inputPrompt"
         android:layout_below="@+id/textView_inputPrompt"
-        android:layout_marginTop="20dp"
-        android:ems="10"
+        android:layout_marginTop="10dp"
+        android:ems="8"
         android:inputType="number"
         android:text="@string/exercise_h229_defaultPowerCount" />
-    
+
     <Button
         android:id="@+id/button_execute"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/editText_inputField"
         android:layout_alignStart="@+id/editText_inputField"
-        android:layout_below="@id/editText_inputField"
-        android:layout_marginTop="20dp"
-        android:onClick="onExecute"
-        android:text="@string/button_execute" />
+        android:layout_below="@+id/editText_inputField"
+        android:onClick="onExecuteLong"
+        android:text="@string/button_execute_long" />
+    
+     <Button
+         android:id="@+id/button_execute_short"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignEnd="@+id/button_execute"
+         android:layout_alignRight="@+id/scrollView1"
+         android:layout_below="@+id/editText_inputField"
+         android:onClick="onExecuteShort"
+         android:text="@string/button_execute_short" />
+    
+     <ScrollView
+         android:id="@+id/scrollView1"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignLeft="@+id/button_execute"
+         android:layout_alignStart="@+id/button_execute"
+         android:layout_below="@id/button_execute" >
 
-    <TextView
-        android:id="@+id/textView_output"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button_execute"
-        android:layout_alignStart="@+id/button_execute"
-        android:layout_below="@id/button_execute"
-        android:layout_marginTop="20dp"
-        android:text="" />
+        <TextView
+            android:id="@+id/textView_output"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+    </ScrollView>
+
 
 </RelativeLayout>
