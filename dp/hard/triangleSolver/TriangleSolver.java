@@ -1,4 +1,4 @@
-package dp.hard.triangleSolver;
+package uk.lonm.dp.hard.triangleSolver;
 
 /*/r/DailyProgrammer Hard Challenge #160 */
 

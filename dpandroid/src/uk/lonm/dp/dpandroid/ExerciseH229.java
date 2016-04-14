@@ -1,7 +1,10 @@
-package com.lonm.dp.dpandroid;
+package uk.lonm.dp.dpandroid;
 
 import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
+
+import com.lonm.dp.dpandroid.R;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;

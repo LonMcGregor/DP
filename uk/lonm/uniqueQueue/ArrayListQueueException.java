@@ -1,4 +1,4 @@
-package lonm.uniqueQueue;
+package uk.lonm.uniqueQueue;
 
 public class ArrayListQueueException extends RuntimeException{
 	private static final long serialVersionUID = 1L;

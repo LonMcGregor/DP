@@ -1,4 +1,4 @@
-package dp.easy.rockPaperScissorsLizardSpock;
+package uk.lonm.dp.easy.rockPaperScissorsLizardSpock;
 
 public enum Card {
 	ROCK, PAPER, SCISSORS, LIZARD, SPOCK;

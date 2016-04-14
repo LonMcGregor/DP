@@ -1,4 +1,4 @@
-package lonm.uniqueQueue;
+package uk.lonm.uniqueQueue;
 
 import java.util.ArrayList;
 

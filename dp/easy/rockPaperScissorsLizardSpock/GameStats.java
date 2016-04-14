@@ -1,4 +1,4 @@
-package dp.easy.rockPaperScissorsLizardSpock;
+package uk.lonm.dp.easy.rockPaperScissorsLizardSpock;
 
 public class GameStats {
 	private int totalGames;

@@ -1,4 +1,4 @@
-package dp.imd.animalgame;
+package uk.lonm.dp.imd.animalgame;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import lonm.uniqueQueue.UniqueQueue;
+import uk.lonm.uniqueQueue.UniqueQueue;
 
 public class Database {
 	ArrayList<Animal> choices;

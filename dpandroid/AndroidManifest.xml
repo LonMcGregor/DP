@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lonm.dp.dpandroid"
+    package="uk.lonm.dp.dpandroid"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".ChooseExercise"
+            android:name="uk.lonm.dp.dpandroid.ChooseExercise"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +23,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ExerciseH229"
+            android:name="uk.lonm.dp.dpandroid.ExerciseH229"
             android:label="@string/exercise_h229_title"
-            android:parentActivityName=".ChooseExercise" >
+            android:parentActivityName="uk.lonm.dp.dpandroid.ChooseExercise" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.lonm.dp.dpandroid.ChooseExercise" />

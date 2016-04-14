@@ -1,4 +1,4 @@
-package dp.imd.animalgame;
+package uk.lonm.dp.imd.animalgame;
 import java.util.Scanner;
 /*/r/DailyProgrammer Challenge Intermediate 212 */
 public class AnimalGame {

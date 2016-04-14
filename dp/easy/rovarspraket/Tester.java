@@ -1,4 +1,4 @@
-package dp.easy.rovarspraket;
+package uk.lonm.dp.easy.rovarspraket;
 /*/r/DailyProgrammer Challenge Easy 212 Te*/
 public class Tester {
 	public static void main(String[] args) {

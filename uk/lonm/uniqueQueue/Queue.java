@@ -1,4 +1,4 @@
-package lonm.uniqueQueue;
+package uk.lonm.uniqueQueue;
 
 
 public interface Queue<E> {

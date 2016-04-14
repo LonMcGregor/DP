@@ -1,4 +1,4 @@
-package dp.imd.animalgame;
+package uk.lonm.dp.imd.animalgame;
 
 import java.io.Serializable;
 import java.util.ArrayList;
