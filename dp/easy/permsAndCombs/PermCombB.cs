@@ -9,7 +9,7 @@ public class PermCombB {
     
     public void perm(int permBase, long index){
         int[] available = range(permBase);
-        int[] factoradic = convertDecimalToFactoradict(index, permBase);
+        int[] factoradic = convertDecimalToFactoradic(index, permBase);
         string solution = null;
         foreach(int factorial in factoradic){
             if(solution==null){
@@ -23,15 +23,22 @@ public class PermCombB {
         Console.WriteLine(solution);
     }
     
-    private int[] convertDecimalToFactoradict(long input, int newBase){
-        char[] digits = Convert.ToString(input, newBase).ToCharArray();
-        int[] factoradict = new int[digits.Length+1];
-        int i = 0;
-        foreach(char digit in digits){
-            factoradict[i++] = Int32.Parse(digit.ToString());
+    private int[] convertDecimalToFactoradic(long input, int newBase){
+        string factoradic = "";
+        while(input != 0){
+            long remainder = input % newBase;
+            input = input / newBase;
+            factoradic += remainder.ToString();
         }
-        factoradict[factoradict.Length-1] = 0;
-        return factoradict;
+        factoradic += "0";
+        char[] factoradicCharArray = factoradic.ToCharArray();
+        int[] factoradicArray = new int[factoradic.Length];
+        int i = 0;
+        foreach(char s in factoradicCharArray){
+            factoradicArray[i++] = Convert.ToInt32(s);
+        }
+        Console.WriteLine("Found factoradic {0}", factoradic);
+        return factoradicArray;
     }
     
     private int[] removeItemFromIndexOfArray(int[] input, int index){
