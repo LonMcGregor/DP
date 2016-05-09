@@ -1,4 +1,4 @@
-//DP EASY 265-1
+//DP EASY 265-A
 //Solution by bruteforce
 
 namespace uk.lonm.dp.easy{
