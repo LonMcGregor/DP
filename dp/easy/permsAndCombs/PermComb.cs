@@ -8,11 +8,7 @@ using System;
 public class PermComb {
     
     public void perm(int value, int count){
-        int[] availableInts = new int[value];
-        for (int i = 0; i < value; i++){
-            availableInts[i] = i;
-        }
-        int[][] allPerms = doPerm(availableInts);
+        int[][] allPerms = doPerm(range(value));
         int countup = 0;
         foreach(int[] item in allPerms){
             if(countup++ == count-1){
@@ -36,6 +32,14 @@ public class PermComb {
             }
         }
         return solution;
+    }
+    
+    private int[] range(int max){
+        int[] r = new int[max];
+        for (int i = 0; i < max; i++){
+            r[i] = i;
+        }
+        return r;
     }
     
     private int fact(int i){
@@ -66,8 +70,43 @@ public class PermComb {
         return newArr;
     }
         
-    public void combo(int value, int count){
-        return;
+    public void comb(int value, int count, int index){
+        int[][] allPerms = doComb(range(value), count, -1);
+        int countup = 0;
+        foreach(int[] item in allPerms){
+            if(countup++ == index-1){
+                Console.WriteLine(arrToStr(item));
+                return;
+            }
+        }
+    }
+        
+    private int[][] doComb(int[] available, int k, int head){
+        if (k == 1){
+            int[][] items = new int[available.Length][];
+            int count = 0;
+            foreach(int item in available){
+                if(item > head){
+                    items[count++] = new int[] {item};
+                }
+            }
+            return items;
+        }
+        int foundSolutions = 0;
+        int n = available.Length;
+        int availableCombinations = fact(n) / fact(n-k) * fact(k);
+        int[][] solution = new int[availableCombinations][];
+        foreach(int choice in available){
+            if(choice > head){
+                int[] nextArr = removeFirstInstanceOfItemFromArray(available, choice);
+                int[][] children = doComb(nextArr, k-1, choice);
+                foreach(int[] child in children){
+                    if(child==null)continue;
+                    solution[foundSolutions++] = newArrayHead(choice, child);
+                }
+            }
+        }
+        return solution;
     }
     
     private string arrToStr(int[] arr){
@@ -85,9 +124,11 @@ public class PermComb {
 public class Runner{
     public static void Main(string[] args){
         PermComb pc = new PermComb();
-        if(args[0]=="perm"){
+        if(args.Length==4 && args[0]=="perm"){
             pc.perm(Int32.Parse(args[3]), Int32.Parse(args[1]));
-        } else if(args[0]=="help"){
+        } else if(args.Length==6 && args[0]=="comb"){
+            pc.comb(Int32.Parse(args[5]), Int32.Parse(args[3]), Int32.Parse(args[1]));
+        } else {
             Console.WriteLine("Usage:\n\t.\\PermComb.exe perm 3 of 4\n \t\tGives the 3rd permutation of the first 4 numbers.\n\t.\\PermComb.exe comb 3 in 4 of 6\n \t\tGives the 3rd value in the combinations of 4 of the first 6 numbers.");
         }
     }
