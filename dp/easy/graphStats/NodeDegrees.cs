@@ -13,24 +13,19 @@ class GraphStatRunner {
         int numberOfNodes = Convert.ToInt32(Console.ReadLine());
         NodeDegreeAnalyser nda = new NodeDegreeAnalyser(numberOfNodes);
         Console.WriteLine("Enter Edges:");
+        Regex r = new Regex(@"\d+");
+        int[] nodes = new int[2];
         string s = Console.ReadLine();
         while(s!=""){
-            int[] nodes = handleInputString(s);
+            int i = 0;
+            foreach(Match m in r.Matches(s)){
+                nodes[i++] = Convert.ToInt32(m.Value);
+            }
             nda.addNewEdge(nodes[0], nodes[1]);
             s = Console.ReadLine();
         }
         nda.printNodeDegrees();
         nda.printAdjacencyMatrix();
-    }
-    
-    public static int[] handleInputString(string s){
-        Regex r = new Regex(@"\d+");
-        int[] nodes = new int[2];
-        int i = 0;
-        foreach(Match m in r.Matches(s)){
-            nodes[i++] = Convert.ToInt32(m.Value);
-        }
-        return nodes;
     }
 }
 
