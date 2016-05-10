@@ -5,25 +5,51 @@
 namespace uk.lonm.dp.easy {
 
 using System;
+using System.Text.RegularExpressions;
 
 class GraphStatRunner {
-    public static void main(string[] args){
-        
+    public static void Main(string[] args){
+        Console.Write("Number of Nodes: ");
+        int numberOfNodes = Convert.ToInt32(Console.ReadLine());
+        NodeDegreeAnalyser nda = new NodeDegreeAnalyser(numberOfNodes);
+        Console.WriteLine("Enter Edges:");
+        string s = Console.ReadLine();
+        while(s!=""){
+            int[] nodes = handleInputString(s);
+            nda.addNewEdge(nodes[0], nodes[1]);
+            s = Console.ReadLine();
+        }
+        nda.printNodeDegrees();
+        nda.printAdjacencyMatrix();
+    }
+    
+    public static int[] handleInputString(string s){
+        Regex r = new Regex(@"\d+");
+        int[] nodes = new int[2];
+        int i = 0;
+        foreach(Match m in r.Matches(s)){
+            nodes[i++] = Convert.ToInt32(m.Value);
+        }
+        return nodes;
     }
 }
 
 class NodeDegreeAnalyser {
-    private List<List<int>> adjacencyMatrix;
-    private List<int> nodePositions;
-    private List<int> nodeDegrees;
+    private int[][] adjacencyMatrix;
+    private int[] nodePositions;
+    private int[] nodeDegrees;
     
-    public NodeDegreeAnalyser(){
-        nodePositions = new List<int>();
-        adjacencyMatrix = new List<List<int>>();
+    public NodeDegreeAnalyser(int numberOfNodes){
+        adjacencyMatrix = new int[numberOfNodes][];
+        for(int i = 0; i < numberOfNodes; i++){
+            adjacencyMatrix[i] = new int[numberOfNodes];
+        }
+        nodePositions = new int[numberOfNodes];
+        nodeDegrees = new int[numberOfNodes];
     }
     
     public void printAdjacencyMatrix(){
-        foreach(List<int> row in adjacencyMatrix){
+        foreach(int[] row in adjacencyMatrix){
             foreach(int cell in row){
                 Console.Write("{0} ", cell);
             }
@@ -32,7 +58,7 @@ class NodeDegreeAnalyser {
     }
     
     public void printNodeDegrees(){
-        for(int i = 0; i < nodePositions; i++){
+        for(int i = 0; i < nodePositions.Length; i++){
             Console.WriteLine("Node {0} has a degree of {1}", nodePositions[i], nodeDegrees[i]);
         }
     }
@@ -42,34 +68,24 @@ class NodeDegreeAnalyser {
         int posOfB = getPositionOfNode(nodeBName);
         adjacencyMatrix[posOfA][posOfB]++;
         adjacencyMatrix[posOfB][posOfA]++;
-        if(posA!=posB){
+        if(posOfA!=posOfB){
             nodeDegrees[posOfA]++;
         }
         nodeDegrees[posOfB]++;
     }
     
     private int getPositionOfNode(int nodeName){
-        int position = nodePositions.IndexOf(nodeName);
-        if(position==-1){
-            nodePositions.Add(nodeName);
-            registerNewNode();
-            return nodePositions.Count-1;
+        for(int i = 0; i < nodePositions.Length; i++){
+            if(nodePositions[i] == 0){
+                nodePositions[i] = nodeName;
+                return i;
+            }
+            if(nodePositions[i] == nodeName){
+                return i;
+            }
         }
-        return position;
+        throw new Exception("More Nodes named than Declared");
     }
-    
-    private void registerNewNode(){
-        for(int i = 0; i < adjacencyMatrix.Count; i++){
-            adjacencyMatrix[i].Add(0);
-        }
-        adjacencyMatrix.Add(new List<int>());
-        int newRowNumber = adjacencyMatrix.Count-1;
-        for(int i = 0; i < adjacencyMatrix.Count; i++){
-            adjacencyMatrix[newRowNumber].Add(0);
-        }
-        nodeDegrees.Add(0);
-    }
-    
 }
 
 }
