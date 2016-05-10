@@ -1,4 +1,5 @@
-//Challenge 264I - Gossipping Bus Drivers, + bonus
+//Challenge 264I - Gossipping Bus Drivers
+//https://redd.it/4gqm90
 
 namespace uk.lonm.dp.imd{
 
@@ -10,18 +11,18 @@ class RunGossip {
     public static void Main(string[] args){
         GossippingSimulation gs = new GossippingSimulation();
         gs.readInputs();
-        gs.simulateUntilComplete();
+        int count = gs.simulateUntilComplete();
+        string message = count>=0 ? count.ToString() : "never";
+        Console.WriteLine(message);
     }
 }
 
 class GossippingSimulation {
     private const int MAX_TIMESTEPS = 480;
     private const int TIMESTEP_BETWEEN_STOPS = 1;
-    private const bool USE_TIMESTEP_TO_GOSSIP = false; //f default, t For bonus
     
     private List<GossippingBusDriver> drivers;
     private List<int> stops;
-    private List
     
     public void readInputs(){
         Console.Write("How many Bus Drivers are there? =>");
@@ -31,7 +32,10 @@ class GossippingSimulation {
         for(int i = 0; i < numberOfDrivers; i++){
             Console.Write("Route for driver {0}? =>", i);
             string route = Console.ReadLine();
-            drivers.Add(new GossippingBusDriver(numberOfDrivers, i, route));
+            GossippingBusDriver newDriver = new GossippingBusDriver(numberOfDrivers, i, route);
+            this.drivers.Add(newDriver);
+            Console.WriteLine(" - Registered Driver {0} of {1} at {2}", i, numberOfDrivers, this.drivers.IndexOf(newDriver));
+            Console.WriteLine(" - Driver {0} has route {1}", i, this.drivers[i].routeAsString());
             addRouteStops(route);
         }
     }
@@ -42,30 +46,53 @@ class GossippingSimulation {
             int stop = Convert.ToInt32(m.Value);
             if(!this.stops.Contains(stop)){
                 this.stops.Add(stop);
+                Console.WriteLine("Added new stop, Name:{0} Index:{1}", stop, this.stops.IndexOf(stop));
             }
         }
     }
     
     private bool checkDriversForGossip(){
-        foreach(GossippingBusDriver d in drivers){
+        foreach(GossippingBusDriver d in this.drivers){
             if(!d.getAllGossip())return false;
         }
         return true;
     }
     
-    public void simulateOneStep(){
-        //for each bus stop
-            //make a list
-        //for each driver
-            //add to list of bus stop
-        //for each stop in bust stop list
-        //for each driver, update gossip for each other driver
-        //for each bus driver
-            //advance bus stop
+    private void simulateOneStep(){
+        Console.WriteLine(" - Adding Drivers To Stops");
+        List<int>[] driversAtStops = new List<int>[this.stops.Count];
+        for(int i = 0; i < driversAtStops.Length; i++){
+            driversAtStops[i] = new List<int>();
+            Console.WriteLine(" - - Stop {0} Initialized", this.stops[i]);
+        }
+        foreach(GossippingBusDriver d in this.drivers){
+            Console.WriteLine(" - - Driver {0} is at Stop {1}", d.getDriverID(), d.getCurrentStop());
+            driversAtStops[this.stops.IndexOf(d.getCurrentStop())].Add(d.getDriverID());
+            Console.WriteLine(" - - Driver Registered at Stop");
+        }
+        Console.WriteLine(" - Drivers Added To Stops");
+        Console.WriteLine(" - Sharing Gossip");
+        foreach(List<int> stop in driversAtStops){
+            foreach(int driverID in stop){
+                Console.WriteLine(" - - Driver {0} is receiving gossip", driverID);
+                foreach(int otherDriverID in stop){
+                    this.drivers[driverID].updateGossip(this.drivers[otherDriverID].getKnownGossip());
+                    Console.WriteLine(" - - - Driver {0} Learned Gossip From Driver {1}", driverID, otherDriverID);
+                }
+            }
+        }
+        Console.WriteLine(" - Gossip Shared");
+        Console.WriteLine(" - Moving Drivers");
+        foreach(GossippingBusDriver d in this.drivers){
+            d.advanceBusStop();
+            Console.WriteLine(" - - Driver {0} Moved", d.getDriverID());
+        }
+        Console.WriteLine(" - Drivers moved to next spot");
     }
     
     public int simulateUntilComplete(){
         for(int i = 0; i < MAX_TIMESTEPS; i++){
+            Console.WriteLine("Simulating Timestep {0}", i);
             if(checkDriversForGossip())return i;
             simulateOneStep();
         }
@@ -80,12 +107,13 @@ class GossippingBusDriver {
     private List<int> route;
     private int currentStop;
     
-    public GossippingBusDriver(int totalDrivers, int currentID, string route){
+    public GossippingBusDriver(int totalDrivers, int currentID, string newRoute){
         this.driverID = currentID;
         initKnownGossip(totalDrivers);
         updateGossip(currentID);
-        setRoute(route);
-        this.currentStop = route.Get(0);
+        setRoute(newRoute);
+        this.currentStop = 0;
+        Console.WriteLine(" - - Driver {0} initialized, starting at stop {1} in {2}", this.driverID, this.currentStop, routeAsString());
     }
     
     private void initKnownGossip(int totalDrivers){
@@ -104,7 +132,7 @@ class GossippingBusDriver {
         }
     }
     
-    private void updateGossip(int driver){
+    public void updateGossip(int driver){
         this.knownGossip[driver] = true;
         foreach(bool b in knownGossip){
             if(!b)return;
@@ -112,13 +140,31 @@ class GossippingBusDriver {
         this.hasAllGossip = true;
     }
     
-    private void advanceBusStop(){
-        this.currentStop = (this.currentStop + 1) % this.route.Count();
+    public void updateGossip(bool[] newGossip){
+        for(int i = 0; i < newGossip.Length; i++){
+            this.knownGossip[i] = this.knownGossip[i] || newGossip[i];
+            if(newGossip[i]) Console.WriteLine(" - - - - Driver {0} now knows Gossip of {1}", this.driverID, i);
+        }
+        updateGossip(this.driverID);
     }
     
-    public List<int> getRoute(){return this.route;}
+    public void advanceBusStop(){
+        this.currentStop = (this.currentStop + 1) % this.route.Count;
+    }
+    
     public bool getAllGossip(){return this.hasAllGossip;}
-    public int getCurrentStop(){return this.route.Get(this.currentStop());}
+    public bool[] getKnownGossip(){return this.knownGossip;}
+    public int getCurrentStop(){return this.route[this.currentStop];}
+    public int getDriverID(){return this.driverID;}
+    public string routeAsString(){
+        string s = "";
+        foreach(int r in this.route){
+            s += r.ToString();
+            s += " ";
+        }
+        return s;
+    }
 }
+
 
 }
